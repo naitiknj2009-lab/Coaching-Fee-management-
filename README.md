@@ -1,89 +1,71 @@
-# Coaching Fee Manager 2026–27 🎓
+# LedgerCoach 💼
 
-A complete, production-grade tuition and coaching fee management system for the academic session **June 2026 to March 2027**. Works seamlessly as a **responsive web app**, **installable PWA**, and **native Android APK**.
-
----
-
-## 🌟 Key Features
-
-1. **Strict Empty Database by Default**:
-   - Starts with 0 students, ₹0 expected, ₹0 collected, and ₹0 pending fees.
-   - Never loads dummy, mock, or sample data.
-2. **10-Month Digital Fee Register (June 2026 – March 2027)**:
-   - Modeled after academic tuition registers.
-   - Interactive cell status badges:
-     - ✅ **PAID**: Full monthly fee received.
-     - ❌ **UNPAID**: Prior completed month with outstanding balance.
-     - ➖ **NOT JOINED**: Months prior to student's joining date (never billed).
-     - ❗ **MONTH NOT OVER**: Ongoing or future active month.
-   - English and Hindi status legends.
-3. **Student Management**:
-   - Variable monthly fees per student (e.g. ₹500, ₹800, ₹1,200).
-   - Joining date sensitivity (students are not billed for months before their enrollment).
-   - Individual student profile and fee statement.
-4. **Payments & Partial Installments**:
-   - Partial payments, advance payments, and multiple payments per month.
-   - Instant balance recalculation.
-   - Payment modes: Cash, UPI, Bank Transfer, Other.
-   - One-click printable PDF fee receipts.
-5. **Comprehensive Reports & Exports**:
-   - Yearly Fee Register in **A4 Landscape PDF** format.
-   - Excel workbook export (`.xlsx`).
-   - Plain CSV data export.
-   - Outstanding balances list.
-   - Interactive prompt dialog before export to verify institute headers.
-6. **Bilingual Localization**:
-   - Instant one-tap switch between **English** and **हिन्दी (Hindi)**.
-7. **Offline-First Persistence**:
-   - Powered by IndexedDB via Dexie.js.
-   - Operates 100% offline with zero external cloud dependencies.
-   - JSON Backup and Restore with schema verification.
+**Executive Coaching Fee & Retainer Management Platform**  
+*Mobile-First Web & Native Android Application*
 
 ---
 
-## 🛠️ Tech Stack
+## 🌟 Overview & Product Vision
 
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Lucide Icons, Recharts
-- **Database**: IndexedDB with Dexie.js & Dexie React Hooks
-- **Exports**: jsPDF, jsPDF-AutoTable, XLSX (SheetJS)
-- **Mobile & Android**: Capacitor, Android Gradle, Android WebView with WebViewAssetLoader
-- **DevOps**: GitHub Actions automated CI/CD APK builds
+**LedgerCoach** is a specialized, mobile-first financial operations suite built specifically for independent executive coaches, coaching collectives, and leadership advisory practices. It enables coaches to monitor retainer health, trigger courteous client payment nudges, issue new retainers on the go, and track collection velocity directly between client engagements.
 
 ---
 
-## 🚀 Getting Started Locally
+## 🚀 Key Modules & Capabilities
 
-### Prerequisites
-- Node.js 18+ or 20+
-- npm 9+
+### 1. Financial Performance & Hero KPI Module
+- **Recognized Retainer Volume**: Total recognized volume (e.g., `$48,250.00`) with quarterly growth indicators (`+14.2%`).
+- **Micro-Breakdown Chips**: Fast visual recognition of **Collected Cash** (`$38.7k collected`) vs. **Outstanding Due** (`$9.5k due`).
+- **Circular Collection Velocity Gauge**: Real-time SVG ring showing percentage collected (e.g. `84% Paid`) and average Days Sales Outstanding (DSO: `5.4 days`).
 
-### 1. Install Dependencies
-```bash
-npm install
-```
+### 2. Executive Command Center (2x2 Matrix)
+- **+ New Charge**: Issue multi-month retainers, sprint commitments, or bi-weekly blocks with instant Stripe checkout links.
+- **Send Reminders**: Dynamic badge indicating invoices due, opening courteous executive reminder templates.
+- **Retainers Hub**: Direct access to client contracts and auto-renewing advisory scopes.
+- **Export Ledger**: Audited CPA-ready PDF summaries and structured CSV workbooks.
 
-### 2. Start Local Development Server
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+### 3. Transaction Ledger & Payment Pipeline
+- Full-text search across leader names, corporate sponsors, invoice IDs, and packages.
+- Filter pills with dynamic counters: `All`, `Paid`, `Pending`, `Overdue`.
+- Context-sensitive actions:
+  - **Paid**: One-tap official PDF receipt generation.
+  - **Pending**: Courteous "Remind" nudge trigger.
+  - **Overdue**: High-priority "Urgent Ping" action.
 
-### 3. Build & Sync Web Assets to Android
-```bash
-npm run sync:android
-```
+### 4. Client Portfolio & Corporate Sponsors
+- Executive profiles (e.g., Aria Thorne at Nexus Health, Marcus Sterling at FinScale).
+- Corporate sponsorship notes (enterprise L&D, executive committee budgets).
+- Client Lifetime Value (LTV) tracking and billing health indicators.
+
+### 5. Communication Outbox & Tone Tuning
+- High-trust scripts for senior executives:
+  - **Gentle Nudge**: Courteous check-in on pending retainers.
+  - **Milestone Follow-up**: Linked to upcoming coaching sprint reviews.
+  - **Urgent Ping**: Professional follow-up with AP coordination options.
+- Delivery audit trail logging sent pings, delivery timestamps, and channels (Email/SMS).
+
+### 6. Analytics & DSO Velocity
+- Monthly revenue acceleration charts.
+- Days Sales Outstanding (DSO) tracking (benchmark &lt; 6 days).
+- Top retainer accounts by lifetime value.
 
 ---
 
-## 📱 Automatic Android APK Builds with GitHub Actions
+## 🛠️ Tech Stack & Architecture
 
-The repository includes an automated workflow at `.github/workflows/android-build.yml`.
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Plus Jakarta Sans, Lucide Icons, Recharts
+- **Storage**: Offline-First IndexedDB via Dexie.js
+- **Exports**: jsPDF, jsPDF-AutoTable
+- **Mobile Container**: Android WebView with `WebViewAssetLoader`, Edge-to-Edge insets, and hardware acceleration
+- **CI/CD Automation**: GitHub Actions workflow (`.github/workflows/android-build.yml`) for automated APK generation
 
-### How to Get Your Android APK:
-1. Push your repository to GitHub (`git push origin main`).
-2. Open your repository on GitHub in a web browser.
-3. Click on the **Actions** tab at the top.
-4. Select the latest run of **Android APK Build**.
-5. Once complete (green checkmark), scroll down to the **Artifacts** section.
-6. Click **app-release** to download your ready-to-install Android APK (`app-release.apk`).
-7. Transfer and install on your Android device!
+---
+
+## 📱 GitHub Actions Automated Android APK Builds
+
+Whenever changes are pushed to `main`:
+1. GitHub Actions initiates the **Android APK Build** workflow.
+2. Sets up Node.js 20, builds web assets, and syncs them to Android.
+3. Sets up JDK 21 and Gradle 9.3.1.
+4. Restores signing keystore and accepts SDK licenses.
+5. Assembles `app-release.apk` and uploads it to GitHub Actions Artifacts for download.

@@ -1,78 +1,76 @@
-export type PaymentStatus = 'PAID' | 'UNPAID' | 'NOT_JOINED' | 'NOT_OVER';
+export type InvoiceStatus = 'PAID' | 'PENDING' | 'OVERDUE';
+export type RetainerCadence = 'Monthly' | 'Sprint' | 'Bi-Weekly' | 'Quarterly';
+export type PaymentMethod = 'Stripe' | 'Wire / ACH' | 'Credit Card' | 'Check' | 'Direct Transfer';
+export type ReminderTone = 'Gentle Nudge' | 'Milestone Follow-up' | 'Urgent Ping';
 
-export type PaymentMethod = 'Cash' | 'UPI' | 'Bank Transfer' | 'Other';
-
-export interface Student {
+export interface Client {
   id: string;
   name: string;
-  joiningDate: string; // YYYY-MM-DD
-  monthlyFee: number;
-  phone?: string;
+  title: string;
+  company: string;
+  email: string;
+  phone: string;
+  avatarUrl?: string;
+  activePackage: string;
+  cadence: RetainerCadence;
+  retainerFee: number;
+  status: 'ACTIVE' | 'COMPLETED' | 'PAUSED';
+  corporateSponsor?: string;
   notes?: string;
-  isActive: boolean;
-  createdAt: string;
+  ltv: number;
+  joinedDate: string;
 }
 
-export interface AcademicMonth {
-  key: string; // e.g. "2026-06"
-  name: string; // "June"
-  hindiName: string; // "जून"
-  year: number; // 2026
-  monthIndex: number; // 5 (0-indexed for Date)
-  order: number; // 0 to 9
-}
-
-export interface MonthlyFeeRecord {
-  id: string; // `${studentId}_${monthKey}`
-  studentId: string;
-  monthKey: string; // e.g. "2026-06"
-  expectedFee: number;
-  statusOverride?: PaymentStatus;
-  notes?: string;
-  updatedAt: string;
-}
-
-export interface Payment {
-  id: string;
-  studentId: string;
-  monthKey: string; // e.g. "2026-06"
+export interface Invoice {
+  id: string; // e.g. "INV-2041"
+  clientId: string;
+  clientName: string;
+  company: string;
+  packageName: string;
   amount: number;
-  paymentDate: string; // YYYY-MM-DD
-  paymentMethod: PaymentMethod;
-  transactionId?: string;
+  period: string; // e.g. "Q4 2024"
+  issuedDate: string; // YYYY-MM-DD
+  dueDate: string; // YYYY-MM-DD
+  clearedDate?: string; // YYYY-MM-DD
+  status: InvoiceStatus;
+  overdueDays?: number;
+  dueDaysLeft?: number;
+  paymentMethod?: PaymentMethod;
+  lastPinged?: string;
   notes?: string;
-  createdAt: string;
+  stripePaymentUrl?: string;
 }
 
-export interface InstituteSettings {
-  instituteName: string;
+export interface ReminderLog {
+  id: string;
+  invoiceId: string;
+  clientId: string;
+  clientName: string;
+  tone: ReminderTone;
+  channel: 'Email' | 'SMS';
+  sentAt: string;
+  subject: string;
+  preview: string;
+  status: 'Delivered' | 'Opened' | 'Settled';
+}
+
+export interface PracticeProfile {
+  coachName: string;
+  practiceName: string;
+  partnerStatus: string;
   tagline: string;
-  tutorName: string;
-  contactNumber: string;
-  address: string;
-  session: string; // "2026-27"
-  defaultMonthlyFee: number;
-  language: 'en' | 'hi';
-  theme: 'system' | 'light' | 'dark';
+  email: string;
+  phone: string;
+  bankDetails: string;
+  currencySymbol: string;
 }
 
-export interface MonthCalculation {
-  monthKey: string;
-  monthName: string;
-  hindiName: string;
-  expectedFee: number;
-  amountPaid: number;
-  remainingBalance: number;
-  status: PaymentStatus;
-  isNotJoined: boolean;
-  payments: Payment[];
-}
-
-export interface StudentFeeSummary {
-  student: Student;
-  monthCalculations: MonthCalculation[];
-  totalExpected: number;
-  totalPaid: number;
-  totalBalance: number;
-  pendingMonthsCount: number;
+export interface FiscalPeriodData {
+  period: string; // "Q4 2024", "Q3 2024", "YTD 2024"
+  recognizedVolume: number;
+  quarterlyGrowth: number;
+  collectedAmount: number;
+  dueAmount: number;
+  paidPercentage: number;
+  dsoDays: number;
 }

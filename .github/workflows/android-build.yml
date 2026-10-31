@@ -31,32 +31,67 @@ jobs:
       - name: Sync Web Assets to Android Assets
         run: node copy-assets.js
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.3.1'
+
+      - name: Setup Environment File
+        run: |
+          if [ ! -f ".env" ] && [ -f ".env.example" ]; then
+            cp .env.example .env
+          elif [ ! -f ".env" ]; then
+            touch .env
+          fi
+
+      - name: Restore Debug Keystore
+        run: |
+          if [ -f "debug.keystore.base64" ]; then
+            echo "Restoring debug.keystore from base64..."
+            base64 -d debug.keystore.base64 > debug.keystore
+          elif [ ! -f "debug.keystore" ]; then
+            echo "Generating fallback debug keystore..."
+            keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
+          ls -la debug.keystore
+
+      - name: Accept Android SDK Licenses
+        run: |
+          if [ -d "$ANDROID_HOME/cmdline-tools/latest/bin" ]; then
+            yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          fi
 
       - name: Make Gradle executable
         run: chmod +x gradlew || true
 
       - name: Build Android APK with Gradle
         run: |
-          if [ -f "./gradlew" ]; then
+          if [ -x "./gradlew" ]; then
+            echo "Running ./gradlew assembleDebug"
             ./gradlew assembleDebug --stacktrace
           else
+            echo "Running gradle assembleDebug"
             gradle assembleDebug --stacktrace
           fi
 
       - name: Locate and Prepare Output APK
         run: |
           mkdir -p build-artifacts
-          find app/build/outputs/apk/ -name "*.apk" -exec cp {} build-artifacts/app-release.apk \;
-          echo "APK generated successfully at build-artifacts/app-release.apk"
-          ls -la build-artifacts/
+          APK_PATH=$(find app/build/outputs/apk/ -name "*.apk" | head -n 1)
+          if [ -n "$APK_PATH" ]; then
+            cp "$APK_PATH" build-artifacts/app-release.apk
+            echo "APK located at $APK_PATH and copied to build-artifacts/app-release.apk"
+          else
+            echo "Error: No APK found under app/build/outputs/apk/"
+            exit 1
+          fi
+          ls -lh build-artifacts/
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4

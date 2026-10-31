@@ -1,6 +1,6 @@
 {
-  "name": "Coaching Fee Manager",
-  "description": "Comprehensive coaching fee management system for academic session 2026-27 with student register, payments, and financial reports.",
+  "name": "LedgerCoach",
+  "description": "Executive Coaching Fee & Retainer Management Platform for monitoring retainer health, issuing invoices, and tracking collection velocity.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
