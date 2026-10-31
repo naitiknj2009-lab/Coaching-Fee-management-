@@ -1,0 +1,6 @@
+{
+  "summary":  "Implementation plan for Coaching Fee Manager 2026–27: responsive web app, PWA, native Android APK packaging, Dexie.js IndexedDB offline database with zero dummy data, academic session June 2026 - March 2027, bilingual Hindi/English UI, payment tracking, PDF/Excel/CSV exports, and GitHub Actions automated APK build workflow.",
+  "updatedAt":  "2026-10-31T12:22:48.186549445Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

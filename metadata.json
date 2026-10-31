@@ -1,0 +1,6 @@
+{
+  "name": "Coaching Fee Manager",
+  "description": "Comprehensive coaching fee management system for academic session 2026-27 with student register, payments, and financial reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
